@@ -86,17 +86,17 @@
               >
             </div>
             <div class="mb-4"></div>
-            <!-- <button
+            <button
               class="btn btn-primary btn-lg btn-block"
               @click="siginUp"
               type="submit"
             >
               가입 완료
-            </button> -->
+            </button>
           </form>
-          <button class="btn btn-primary btn-lg btn-block" @click="siginUp">
+          <!-- <button class="btn btn-primary btn-lg btn-block" @click="siginUp">
             테스트
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
@@ -139,6 +139,8 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
+
+      this.$router.push("login");
     },
   },
 };

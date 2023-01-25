@@ -4,19 +4,34 @@
       <div class="row">
         <div class="col">
           <h1>로그인</h1>
-          <form action="" method="post">
+          <div>
             <div class="mb-3">
               <label class="form-label" for="id">아이디</label>
-              <input class="form-control" type="text" name="id" id="id" />
+              <input
+                class="form-control"
+                v-model="userId"
+                type="text"
+                name="id"
+                id="id"
+              />
             </div>
             <div class="mb-3">
               <label class="form-label" for="pwd">비밀번호</label>
-              <input class="form-control" type="password" name="pwd" id="pwd" />
+              <input
+                class="form-control"
+                v-model="password"
+                type="password"
+                name="pwd"
+                id="pwd"
+              />
             </div>
-            <button class="btn btn-outline-primary btn-sm" type="submit">
+            <button class="btn btn-outline-primary btn-sm" @click="Login">
               로그인
             </button>
-          </form>
+          </div>
+          <!-- <button class="btn btn-outline-primary btn-sm" @click="Login">
+            로그인
+          </button> -->
         </div>
       </div>
     </div>
@@ -24,10 +39,32 @@
 </template>
 <script>
 export default {
-  created() {
-    this.axios.get("/login").then((response) => {
-      console.log("유저 테이블 : " + response.data);
-    });
+  data() {
+    return {
+      userId: "",
+      password: "",
+    };
+  },
+  methods: {
+    Login() {
+      let user = {
+        userId: this.userId,
+        password: this.password,
+      };
+      console.log(user);
+
+      this.axios
+        .get("/login", user)
+        .then((response) => {
+          console.log("유저 정보 : " + response.data);
+          alert(`${user.userId}님 환영합니다~ 로그인 성공! `);
+          this.$router.push("dashboard");
+        })
+        .catch(function (error) {
+          console.log(error);
+          alert("로그인 실패.. 다시 시도해주세요");
+        });
+    },
   },
 };
 </script>
