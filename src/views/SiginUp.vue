@@ -1,102 +1,39 @@
 <template>
-  <div class="about">
-    <div class="container text-center">
-      <div class="row">
-        <div class="col">
-          <h1>회원가입</h1>
-          <form class="validation-form" method="post" novalidate>
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="name">아이디</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  placeholder=""
-                  v-model="userId"
-                  required
-                />
-                <div class="invalid-feedback">아이디을 입력해주세요.</div>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="nickname">비밀번호</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="nickname"
-                  placeholder=""
-                  v-model="password"
-                  required
-                />
-                <div class="invalid-feedback">비밀번호을 입력해주세요.</div>
-              </div>
-            </div>
+  <div class="container text-center">
+    <div class="row">
+      <div class="col">
+        <div>
+          <div class="mb-3">
+            <label for="아이디" class="form-label">아이디</label>
+            <input type="text" v-model="userId" required />
+          </div>
 
-            <div class="mb-3">
-              <label for="email">이메일</label>
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                v-model="email"
-                placeholder="you@example.com"
-                required
-              />
-              <div class="invalid-feedback">이메일을 입력해주세요.</div>
-            </div>
+          <div class="mb-3">
+            <label for="이메일" class="form-label">이메일</label>
+            <input type="email" v-model="email" required />
+          </div>
+          <div class="mb-3">
+            <label for="비밀번호" class="form-label">비밀번호</label>
+            <input type="text" v-model="password" required />
+          </div>
+          <div class="mb-3">
+            <label for="생년월일" class="form-label">생년월일</label>
+            <input type="date" v-model="birthday" required />
+          </div>
+          <div class="mb-3">
+            <label for="성별">성별</label>
+            <select name="gender" v-model="gender">
+              <option value="">선택</option>
+              <option>여자</option>
+              <option>남자</option>
+            </select>
+          </div>
 
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="address">생년월일</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="address"
-                  v-model="birthday"
-                  min="1990-01-01"
-                  max="2023-01-24"
-                  required
-                />
-                <div class="invalid-feedback">생년월일를 입력해주세요.</div>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="root">성별</label>
-                <select
-                  class="custom-select d-block w-100"
-                  v-model="gender"
-                  id="root"
-                >
-                  <option value=""></option>
-                  <option>여자</option>
-                  <option>남자</option>
-                </select>
-                <div class="invalid-feedback">성별을 선택해주세요.</div>
-              </div>
-            </div>
-            <hr class="mb-4" />
-            <div class="custom-control custom-checkbox">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="aggrement"
-                required
-              />
-              <label class="custom-control-label" for="aggrement"
-                >개인정보 수집 및 이용에 동의합니다.</label
-              >
-            </div>
-            <div class="mb-4"></div>
-            <button
-              class="btn btn-primary btn-lg btn-block"
-              @click="siginUp"
-              type="submit"
-            >
+          <div class="mb-3">
+            <button class="btn btn-primary btn-lg btn-block" @click="siginUp">
               가입 완료
             </button>
-          </form>
-          <!-- <button class="btn btn-primary btn-lg btn-block" @click="siginUp">
-            테스트
-          </button> -->
+          </div>
         </div>
       </div>
     </div>
@@ -115,11 +52,22 @@ export default {
       updatetime: "2021-03-24 09:26:25",
     };
   },
-  created() {
-    // console.log(this.axios);
-  },
   methods: {
     siginUp() {
+      if (this.password.length < 4 || this.password.length >= 20) {
+        alert("비밀번호는 4자리에서 20자리 이하로 설정해주세요");
+      }
+
+      if (this.email == "") {
+        alert("이메일을 입력하세요");
+        return false;
+      }
+
+      if (this.gender == "") {
+        alert("성별을 선택하세요");
+        return false;
+      }
+
       let siginUp = {
         userId: this.userId,
         email: this.email,
@@ -130,17 +78,21 @@ export default {
         updatetime: this.updatetime,
       };
       console.log(siginUp);
+      // console.log(this.axios);
 
+      // axios 요청을 하기 전에 데이터 유효성 검사를 한다.
+      // 중복된 아이디 유저가 있는 것은 디비를 조회해아하니 이 부분은 백엔드에서 한다.
       this.axios
         .post("/signup", siginUp)
-        .then(function (response) {
-          console.log(response.data);
+        .then((response) => {
+          console.log(response);
+          this.$router.push({ path: "/login" });
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error);
+          console.log(error.toJSON());
+          this.$router.push({ path: "/signup" });
         });
-
-      this.$router.push("login");
     },
   },
 };
