@@ -86,12 +86,18 @@ export default {
         .post("/signup", siginUp)
         .then((response) => {
           console.log(response);
-          this.$router.push({ path: "/login" });
+          const result = response.data;
+          if (result === "successs") {
+            alert("회원가입에 성공하셨습니다. 로그인 페이지로 이동합니다.");
+            this.$router.push({ path: "/login" });
+          } else if (result === "dup-userid") {
+            alert("중복된 아이디입니다. 아이디를 변경하세요.");
+          }
         })
         .catch((error) => {
+          alert("회원가입 실패!! 관리자에게 문의하세요 ㅋㅋ ");
           console.log(error);
           console.log(error.toJSON());
-          this.$router.push({ path: "/signup" });
         });
     },
   },
