@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import Login from "../views/Login.vue";
 import Dashboards from "../views/Dashboards.vue";
 import SiginUp from "../views/SiginUp.vue";
+import WriteContent from "../views/WriteContent.vue";
 
 const routes = [
   {
@@ -27,6 +28,11 @@ const routes = [
     path: "/dashboard",
     name: "Dashboards",
     component: Dashboards,
+  },
+  {
+    path: "/write",
+    name: "WriteContent",
+    component: WriteContent,
   },
 ];
 

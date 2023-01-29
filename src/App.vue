@@ -4,7 +4,8 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/signup">회원가입</router-link> |
       <router-link to="/login">로그인</router-link> |
-      <router-link to="/dashboard">글쓰기</router-link>
+      <router-link to="/dashboard">Dashboard</router-link> |
+      <router-link to="/write">글쓰기</router-link>
     </nav>
     <button type="button" class="btn btn-primary">Primary</button>
     <button type="button" class="btn btn-secondary">Secondary</button>

@@ -87,7 +87,7 @@ export default {
         .then((response) => {
           console.log(response);
           const result = response.data;
-          if (result === "successs") {
+          if (result === "success") {
             alert("회원가입에 성공하셨습니다. 로그인 페이지로 이동합니다.");
             this.$router.push({ path: "/login" });
           } else if (result === "dup-userid") {

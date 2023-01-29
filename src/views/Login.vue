@@ -29,9 +29,6 @@
               로그인
             </button>
           </div>
-          <!-- <button class="btn btn-outline-primary btn-sm" @click="Login">
-            로그인
-          </button> -->
         </div>
       </div>
     </div>
@@ -54,15 +51,19 @@ export default {
       console.log(user);
 
       this.axios
-        .get("/login", user)
+        .post("/login", user)
         .then((response) => {
-          console.log("유저 정보 : " + response.data);
-          alert(`${user.userId}님 환영합니다~ 로그인 성공! `);
+          const result = response.data;
+          console.log(response);
+          console.log(result);
+          if (result === "success") {
+            alert(`${user.userId}님 환영합니다~ 로그인 성공! `);
+          }
           this.$router.push("dashboard");
         })
         .catch(function (error) {
           console.log(error);
-          alert("로그인 실패.. 다시 시도해주세요");
+          alert("로그인 실패.. 없는 사용자이거나 다시 시도해주세요");
         });
     },
   },
