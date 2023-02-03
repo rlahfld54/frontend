@@ -7,6 +7,7 @@
           <span class="input-group-text" id="addon-wrapping">제목</span>
           <input
             type="text"
+            v-model="title"
             class="form-control"
             placeholder="제목을 입력하세요"
             aria-label="글쓰기제목"
@@ -17,6 +18,7 @@
           <span class="input-group-text">본문</span>
           <textarea
             class="form-control"
+            v-model="contents"
             aria-label="With textarea"
             rows="20"
             cols="50"
@@ -40,7 +42,7 @@
           <div class="col-4"></div>
           <div class="col-4"></div>
           <div class="col-4">
-            <button type="button" class="btn btn-primary" @click="write">
+            <button type="button" class="btn btn-primary" @click="makeContents">
               완료
             </button>
           </div>
@@ -51,8 +53,48 @@
 </template>
 <script>
 export default {
-  data() {},
-  methods: {},
+  data() {
+    return {
+      title: "",
+      contents: "",
+      currentTime: "",
+    };
+  },
+  methods: {
+    timestamp() {
+      var today = new Date();
+      // 미국시간 기준이니까 9를 더해주면 대한민국 시간됨
+      today.setHours(today.getHours() + 9);
+      // 문자열로 바꿔주고 T를 빈칸으로 바꿔주면 yyyy-mm-dd hh:mm:ss 이런 형식 나옴
+      return today.toISOString().replace("T", " ").substring(0, 19);
+    },
+    makeContents() {
+      this.currentTime = this.timestamp();
+
+      let temp = {
+        title: this.title,
+        contents: this.contents,
+        currentTime: this.currentTime,
+        userid: document.cookie.split("=")[1],
+      };
+      console.log(temp);
+      console.log(document.cookie);
+      this.axios
+        .post("/write", temp, {
+          // headers: {
+          //   Authorization: "Bearer" + varToken,
+          // },
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log("글생성 실패!" + error);
+          console.log(error.toJSON());
+        });
+    },
+  },
 };
 </script>
 <style lang=""></style>

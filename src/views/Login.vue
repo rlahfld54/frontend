@@ -51,14 +51,12 @@ export default {
       console.log(user);
 
       this.axios
-        .post("/login", user)
+        .post("/login", user, { withCredentials: true })
         .then((response) => {
-          const result = response.data;
           console.log(response);
-          console.log(result);
-          if (result === "success") {
-            alert(`${user.userId}님 환영합니다~ 로그인 성공! `);
-          }
+          console.log(response.headers);
+          console.log(document.cookie);
+          alert(`${user.userId}님 환영합니다~ 로그인 성공! `);
           this.$router.push("dashboard");
         })
         .catch(function (error) {
