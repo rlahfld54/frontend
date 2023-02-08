@@ -89,9 +89,11 @@ export default {
           const result = response.data;
           if (result === "success") {
             alert("회원가입에 성공하셨습니다. 로그인 페이지로 이동합니다.");
-            this.$router.push({ path: "/login" });
+            window.location.href = "/";
           } else if (result === "dup-userid") {
             alert("중복된 아이디입니다. 아이디를 변경하세요.");
+          } else {
+            alert("회원가입에 실패하셨습니다.");
           }
         })
         .catch((error) => {
